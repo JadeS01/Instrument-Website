@@ -5,6 +5,7 @@ import { List, Map } from 'immutable';
 import { PianoInstrument } from './instruments/Piano';
 import { WaveformVisualizer } from './visualizers/Waveform';
 import { JadeS01Visualizer } from './visualizers/JadeS01';
+import { JosephkoisVisualizer } from "./visualizers/josephkois";
 
 
 /** ------------------------------------------------------------------------ **
@@ -22,7 +23,7 @@ const instruments = List([PianoInstrument]);       // similar to Instrument[]
  * Start with the default waveform visualizer.
  * Add your visualizers to this list.
  */
-const visualizers = List([WaveformVisualizer, JadeS01Visualizer]);    // similar to Visualizer[]
+const visualizers = List([WaveformVisualizer, JadeS01Visualizer, JosephkoisVisualizer]);    // similar to Visualizer[]
 
 
 /**

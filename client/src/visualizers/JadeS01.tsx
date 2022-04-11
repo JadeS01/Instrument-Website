@@ -33,7 +33,7 @@ export const JadeS01Visualizer = new Visualizer(
         // Place vertex
         p5.vertex(x, y);
         p5.rect(i*space, t, space, height-t);
-       
+
       }
       p5.endShape();
 
