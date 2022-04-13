@@ -105,15 +105,18 @@ interface PianoKeyProps {
     const setOscillator = (newType: Tone.ToneOscillatorType) => {
       setSynth(oldSynth => {
         oldSynth.disconnect();
-  
+    
         return new Tone.Synth({
           oscillator: { type: newType } as Tone.OmniOscillatorOptions,
-          "envelope": {
-                attack: .001,
-                sustain: 1,
-                decay: 100,
-                release: 4
-          }
+          // "envelope": {
+          //       attack: .005,
+          //       attackCurve: 'linear',
+          //       decayCurve: 'exponential',
+          //       sustain: 0.3,
+          //       decay: 0.1,
+          //       release: 1,
+          //       releaseCurve: 'exponential'
+          // },
         }).toDestination();
       });
     };

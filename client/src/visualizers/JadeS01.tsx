@@ -35,6 +35,11 @@ export const JadeS01Visualizer = new Visualizer(
           const y = r * p5.cos(j);
           // Place vertex
           p5.vertex(x, y);
+
+          const pX = p5.random(0, 20) + (amplitude * p5.random(0, width * 2));
+          const pY = p5.random(0, 20) + (amplitude * p5.random(0, width * 2));
+          const pD = p5.random(1, 0.5);
+          p5.circle(pX, pY, pD);
         }
         p5.endShape();
       }
