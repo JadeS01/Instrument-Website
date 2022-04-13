@@ -16,41 +16,28 @@ export const JadeS01Visualizer = new Visualizer(
       
       p5.background(0, 0, 0, 255);
 
-      p5.strokeWeight(dim * 0.01);
-      p5.stroke(255, 255, 255, 255);
+      p5.strokeWeight(dim * 0.025);
+      p5.background(0, 0, 0, 255);
+      p5.stroke('white');
       p5.noFill();
 
-      const values = analyzer.getValue();
+      p5.angleMode('degrees');
+      p5.translate(width/2, height/2);
 
-      let space = width/ 128;
-      p5.beginShape();
-      for(let i = 0; i < values.length; i++){
-        p5.fill(i, 255, 255);
-        const amplitude = values[i] as number;
-        const x = p5.map(i, 0, values.length - 1, 0, width);
-        const y = height / 2 + amplitude * height;
-        const t = p5.map(amplitude, 0, 256, height, 0);
-        // Place vertex
-        p5.vertex(x, y);
-        p5.rect(i*space, t, space, height-t);
-
+      const values = analyzer.getValue();      
+      for (let i = -1; i <= 1; i += 2) {
+        p5.beginShape();
+        for (let j = 0; j <= 180; j += 0.5) {
+          const index = p5.floor(p5.map(j, 0, 180, 0, values.length - 1));
+          const amplitude = values[index] as number;
+          const r = p5.map(amplitude, -1, 1, 150, 300);
+          const x = r * p5.sin(j) * i;
+          const y = r * p5.cos(j);
+          // Place vertex
+          p5.vertex(x, y);
+        }
+        p5.endShape();
       }
-      p5.endShape();
-
-      // for (let i = -1; i <= 1; i += 2) {
-      //   p5.beginShape();
-      //   for (let j = 0; j <= 180; j += 0.5) {
-      //     const index = p5.floor(p5.map(j, 0, 180, 0, values.length - 1));
-      //     const amplitude = values[index] as number;
-      //     const r = p5.map(amplitude, -1, 1, 50, 300);
-      //     const x = r * p5.sin(j) * i;
-      //     const y = r * p5.cos(j);
-      //     p5.line(0,0,x,y);
-      //     // Place vertex
-      //     p5.vertex(x, y);
-      //   }
-      //   p5.endShape();
-      // }
 
       
     },
