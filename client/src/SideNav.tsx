@@ -7,6 +7,9 @@ import {
   RadioButton20,
   RadioButtonChecked20,
   Music20,
+  User16,
+  Book16
+
 } from '@carbon/icons-react';
 
 // project imports
@@ -141,6 +144,7 @@ function VisualizersNav({ state }: SideNavProps): JSX.Element {
   );
 }
 
+
 function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
   /** 
    * 
@@ -169,6 +173,13 @@ function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
         >
           <Music20 className="mr1" />
           {song.get('songTitle')}
+
+          <User16 />
+            {song.get('artist')}
+          
+
+          <Book16 />
+            {song.get('album')}
         </div>
       ))}
     </Section>

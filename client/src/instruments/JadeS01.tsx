@@ -10,7 +10,7 @@ import { Instrument, InstrumentProps } from '../Instruments';
 
 
 
-interface PianoKeyProps {
+interface HarpStringProps {
     note: string; // C, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B
     duration?: string;
     synth?: Tone.Synth; // Contains library code for making sound
@@ -18,14 +18,14 @@ interface PianoKeyProps {
     index: number; // octave + index together give a location for the piano key
   }
   
-  export function PianoKey({
+  export function HarpString({
     note,
     synth,
     index,
-  }: PianoKeyProps): JSX.Element {
+  }: HarpStringProps): JSX.Element {
     /**
      * This React component corresponds to either a major or minor key in the piano.
-     * See `PianoKeyWithoutJSX` for the React component without JSX.
+     * See `HarpStringWithoutJSX` for the React component without JSX.
      */
     return (
       // Observations:
@@ -36,7 +36,9 @@ interface PianoKeyProps {
         onMouseDown={() => synth?.triggerAttack(`${note}`)} // Question: what is `onMouseDown`?
         onMouseUp={() => synth?.triggerRelease('+0.25')} // Question: what is `onMouseUp`?
         className={classNames('ba pointer absolute dim', {
-          'black bg-white h4': note, // major keys are white
+          'black bg-red h4': note == 'C', // major keys are white
+          'black bg-green h4': note == 'F', // major keys are white
+          'black bg-white h4': note !== 'C' && note != 'F', // major keys are white
         })}
         style={{
           // CSS
@@ -51,14 +53,14 @@ interface PianoKeyProps {
   }
   
   // eslint-disable-next-line
-  function PianoKeyWithoutJSX({
+  function HarpStringWithoutJSX({
     note,
     synth,
     index,
-  }: PianoKeyProps): JSX.Element {
+  }: HarpStringProps): JSX.Element {
     /**
      * This React component for pedagogical purposes.
-     * See `PianoKey` for the React component with JSX (JavaScript XML).
+     * See `HarpString` for the React component with JSX (JavaScript XML).
      */
     return React.createElement(
       'div',
@@ -76,7 +78,7 @@ interface PianoKeyProps {
     );
   }
   
-  function PianoType({ title, onClick, active }: any): JSX.Element {
+  function HarpType({ title, onClick, active }: any): JSX.Element {
     return (
       <div
         onClick={onClick}
@@ -106,7 +108,7 @@ interface PianoKeyProps {
       setSynth(oldSynth => {
         oldSynth.disconnect();
     
-        return new Tone.Synth({
+        return new Tone.MembraneSynth ({
           oscillator: { type: newType } as Tone.OmniOscillatorOptions,
           // "envelope": {
           //       attack: .005,
@@ -117,6 +119,14 @@ interface PianoKeyProps {
           //       release: 1,
           //       releaseCurve: 'exponential'
           // },
+          "envelope": {
+            "attack": 0.001,
+            "decay": 0.35,
+            "sustain": 0.01,
+            "release": 1.4,
+          },
+          "octaves": 9,
+          "pitchDecay": 0.0005,
         }).toDestination();
       });
     };
@@ -139,10 +149,9 @@ interface PianoKeyProps {
         <div className="relative dib h4 w-100 ml4">
           {Range(2, 7).map(octave =>
             strings.map(strings => {
-              const isMinor = strings.note.indexOf('b') !== -1;
               const note = `${strings.note}${octave}`;
               return (
-                <PianoKey
+                <HarpString
                   key={note} //react key
                   note={note}
                   synth={synth}
@@ -155,7 +164,7 @@ interface PianoKeyProps {
         </div>
         <div className={'pl4 pt4 flex'}>
           {oscillators.map(o => (
-            <PianoType
+            <HarpType
               key={o}
               title={o}
               onClick={() => setOscillator(o)}
