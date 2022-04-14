@@ -11,23 +11,23 @@ export const JosephkoisVisualizer = new Visualizer(
     'Josephkois Visualizer',
     (p5: P5, analyzer: Tone.Analyser) => {
         const width = window.innerWidth;
-        const height = window.innerHeight / 2;
-        const dim = Math.min(width, height);
+        //location where waveform is located
+        const height = window.innerHeight / 4;
 
+    p5.colorMode(p5.HSB, 50, 100, 100); //rainbow effect
     p5.background(0, 0, 0, 255);
+    p5.noStroke();
 
-    p5.strokeWeight(dim * 0.01);
-    p5.stroke(255, 255, 255, 255);
-    p5.noFill();
-
+    let barWidth = width / 64;
     const values = analyzer.getValue();
+
     p5.beginShape();
     for (let i = 0; i < values.length; i++) {
-        const amplitude = values[i] as number;
-        const x = p5.map(i, 0, values.length - 1, 0, width);
-        const y = height / 2 + amplitude * height;
-        // Place vertex
-        p5.vertex(x, y);
+        const amplitude = values[i] as number * 1.5;
+        const y = p5.map(amplitude, 0, 1, height, 0);
+        p5.fill(i, 255, 255); // last 2 values are opacity
+        p5.rect(i * barWidth, y, barWidth - 4, height - y);
+        //p5.lerp(i, 0, 0.08);
     }
     p5.endShape();
     },
