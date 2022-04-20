@@ -40,8 +40,8 @@ export function FluteKey({
       style={{
         // CSS
         top: '0',
-        marginRight: '1.25rem',
-        height: `${index + 6}em`,
+        marginRight: '.2rem',
+        height: `${index + 5}em`,
         backgroundColor: 'Sienna',
         borderColor: 'Brown'
       }}>
@@ -52,8 +52,8 @@ export function FluteKey({
           top: '0',
           left: `${index * 4}em`,
           width: '1.5rem',
-          height: '1.5em',
-          backgroundColor: 'white'
+          height: '1em',
+          backgroundColor: 'Black'
         }}
       ></div>
     </div>
@@ -146,7 +146,6 @@ function Flute({ synth, setSynth }: InstrumentProps): JSX.Element {
   return (
     <div className="pv4">
       <div className="dib w-100 ml4 flex">
-
         {Range(0, 3).map(octave =>
           keys.map(key => {
             const note = `${key.note}${octave + 2}`;
