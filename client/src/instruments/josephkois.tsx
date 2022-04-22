@@ -7,7 +7,7 @@ import React from 'react';
 // project imports
 import { Instrument, InstrumentProps } from '../Instruments';
 
-interface ViolinKeyProps {
+interface ViolinStringProps {
     note: string; 
     duration?: string;
     synth?: Tone.Synth; // Contains library code for making sound
@@ -15,11 +15,11 @@ interface ViolinKeyProps {
     index: number; // octave + index together give a location for the piano key
 }
 
-export function ViolinKey({
+export function ViolinString({
     note,
     synth,
     index,
-}: ViolinKeyProps): JSX.Element {
+}: ViolinStringProps): JSX.Element {
     /**
      * This React component corresponds to either a major or minor key in the piano.
      * See `PianoKeyWithoutJSX` for the React component without JSX.
@@ -37,12 +37,12 @@ export function ViolinKey({
           //'black bg-white h4': !minor, // major keys are white
         })}
         style={{
-          // CSS
+        // CSS
         top: 0,
-          left: `${index * 2}rem`,
-          //zIndex: minor ? 1 : 0,
-          //width: minor ? '1.5rem' : '2rem',
-          //marginLeft: minor ? '0.25rem' : 0,
+        left: `${index * 2}rem`,
+        zIndex:1,
+        width:'1.5rem',
+        marginLeft: '0.25rem',
         }}
     ></div>
     );
@@ -53,7 +53,7 @@ function PianoKeyWithoutJSX({
     note,
     synth,
     index,
-}: ViolinKeyProps): JSX.Element {
+}: ViolinStringProps): JSX.Element {
     /**
      * This React component for pedagogical purposes.
      * See `ViolinKey` for the React component with JSX (JavaScript XML).
@@ -64,22 +64,17 @@ function PianoKeyWithoutJSX({
         onMouseDown: () => synth?.triggerAttack(`${note}`),
         onMouseUp: () => synth?.triggerRelease('+0.25'),
         className: classNames('ba pointer absolute dim', {
-          //'bg-black black h3': minor,
-          //'black bg-white h4': !minor,
         }),
         style: {
         top: 0,
         left: `${index * 2}rem`,
-          //zIndex: minor ? 1 : 0,
-          //width: minor ? '1.5rem' : '2rem',
-          //marginLeft: minor ? '0.25rem' : 0,
         },
     },
     [],
     );
 }
 
-function PianoType({ title, onClick, active }: any): JSX.Element {
+function ViolinType({ title, onClick, active }: any): JSX.Element {
     return (
     <div
         onClick={onClick}
@@ -94,7 +89,7 @@ function PianoType({ title, onClick, active }: any): JSX.Element {
 }
 
 function Violin({ synth, setSynth }: InstrumentProps): JSX.Element {
-    const keys = List([
+    const strings = List([
     { note: 'C', idx: 0 },
     { note: 'Db', idx: 0.5 },
     { note: 'D', idx: 1 },
@@ -137,7 +132,6 @@ function Violin({ synth, setSynth }: InstrumentProps): JSX.Element {
         <div className="relative dib h4 w-100 ml4">
         {Range(2, 7).map(octave =>
             keys.map(key => {
-            const isMinor = key.note.indexOf('b') !== -1;
             const note = `${key.note}${octave}`;
             return (
                 <ViolinKey
