@@ -49,30 +49,30 @@ export function ViolinString({
 }
 
   // eslint-disable-next-line
-function ViolinStringWithoutJSX({
-    note,
-    synth,
-    index,
-}: ViolinStringProps): JSX.Element {
-    /**
-     * This React component for pedagogical purposes.
-     * See `ViolinKey` for the React component with JSX (JavaScript XML).
-     */
-    return React.createElement(
-    'div',
-    {
-        onMouseDown: () => synth?.triggerAttack(`${note}`),
-        onMouseUp: () => synth?.triggerRelease('+0.25'),
-        className: classNames('ba pointer absolute dim', {
-        }),
-        style: {
-        top: 0,
-        left: `${index * 2}rem`,
-        },
-    },
-    [],
-    );
-}
+// function ViolinStringWithoutJSX({
+//     note,
+//     synth,
+//     index,
+// }: ViolinStringProps): JSX.Element {
+//     /**
+//      * This React component for pedagogical purposes.
+//      * See `ViolinKey` for the React component with JSX (JavaScript XML).
+//      */
+//     return React.createElement(
+//     'div',
+//     {
+//         onMouseDown: () => synth?.triggerAttack(`${note}`),
+//         onMouseUp: () => synth?.triggerRelease('+0.25'),
+//         className: classNames('ba pointer absolute dim', {
+//         }),
+//         style: {
+//         top: 0,
+//         left: `${index * 2}rem`,
+//         },
+//     },
+//     [],
+//     );
+// }
 
 function ViolinType({ title, onClick, active }: any): JSX.Element {
     return (
@@ -159,4 +159,4 @@ function Violin({ synth, setSynth }: InstrumentProps): JSX.Element {
     );
 }
 
-export const ViolinInstrument = new Instrument('Josephkois', Violin);
+export const ViolinInstrument = new Instrument('josephkois', Violin);
