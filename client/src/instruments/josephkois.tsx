@@ -40,8 +40,8 @@ export function ViolinString({
         // CSS
         top: 0,
         left: `${index * 2}rem`,
-        zIndex:1,
-        width:'1.5rem',
+        zIndex: 1,
+        width: '1.5rem',
         marginLeft: '0.25rem',
         }}
     ></div>
@@ -49,7 +49,7 @@ export function ViolinString({
 }
 
   // eslint-disable-next-line
-function PianoKeyWithoutJSX({
+function ViolinStringWithoutJSX({
     note,
     synth,
     index,
@@ -131,15 +131,15 @@ function Violin({ synth, setSynth }: InstrumentProps): JSX.Element {
     <div className="pv4">
         <div className="relative dib h4 w-100 ml4">
         {Range(2, 7).map(octave =>
-            keys.map(key => {
-            const note = `${key.note}${octave}`;
+            strings.map(strings => {
+            const note = `${strings.note}${octave}`;
             return (
-                <ViolinKey
+                <ViolinString
                 key={note} //react key
                 note={note}
                 synth={synth}
                 octave={octave}
-                index={(octave - 2) * 7 + key.idx}
+                index={(octave - 2) * 7 + strings.idx}
                 />
             );
             }),
@@ -147,7 +147,7 @@ function Violin({ synth, setSynth }: InstrumentProps): JSX.Element {
         </div>
         <div className={'pl4 pt4 flex'}>
         {oscillators.map(o => (
-            <PianoType
+            <ViolinType
             key={o}
             title={o}
             onClick={() => setOscillator(o)}
