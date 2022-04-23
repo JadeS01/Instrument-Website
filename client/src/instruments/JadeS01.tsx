@@ -2,7 +2,7 @@
 import * as Tone from 'tone';
 import classNames from 'classnames';
 import { List, Range } from 'immutable';
-import React from 'react';
+import React, { useState } from 'react';
 
 // project imports
 import { Instrument, InstrumentProps } from '../Instruments';
@@ -27,6 +27,23 @@ interface HarpStringProps {
      * This React component corresponds to either a major or minor key in the piano.
      * See `HarpStringWithoutJSX` for the React component without JSX.
      */
+    const [sample] = useState(
+      new Tone.Sampler({  
+        urls:{
+          A2: `https://github.com/nbrosowsky/tonejs-instruments/blob/master/samples/harp/A2.mp3`
+        },
+        baseUrl: "http://localhost:3000" 
+
+      }).toDestination()
+    )
+    
+    const harp_sample = (note: string) => {
+      sample.triggerAttackRelease([`${note}`], 1);
+    }
+  
+    const colors =['#A93226','#F9E79F','#F9E79F','#229954','#F9E79F','#F9E79F','#F9E79F'];
+    const colors2 =['#A93226','#F9E79F','#F9E79F','#229954','#F9E79F','#F9E79F','#F9E79F'];
+    colors.push(...colors2); 
     return (
       // Observations:
       // 1. The JSX refers to the HTML-looking syntax within TypeScript.
@@ -42,11 +59,13 @@ interface HarpStringProps {
         })}
         style={{
           // CSS
+          backgroundColor: colors[index],
           top: 0,
           left: `${index * 2}rem`,
           zIndex: 1,
           width: '1.5rem',
           marginLeft: '0.25rem',
+
         }}
       ></div>
     );
@@ -91,7 +110,8 @@ interface HarpStringProps {
       </div>
     );
   }
-  
+
+
   function Harp({ synth, setSynth }: InstrumentProps): JSX.Element {
     const strings = List([
     // Diatonic scale
@@ -147,7 +167,7 @@ interface HarpStringProps {
     return (
       <div className="pv4">
         <div className="relative dib h4 w-100 ml4">
-          {Range(2, 7).map(octave =>
+          {Range(2, 4).map(octave =>
             strings.map(strings => {
               const note = `${strings.note}${octave}`;
               return (
