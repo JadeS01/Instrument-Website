@@ -41,7 +41,7 @@ export function FluteKey({
         // CSS
         top: '0',
         marginRight: '.2rem',
-        height: `${index + 5}em`,
+        height: `${18 - index}em`,
         backgroundColor: 'Sienna',
         borderColor: 'Brown'
       }}>
