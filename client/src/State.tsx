@@ -10,9 +10,7 @@ import { WaveformVisualizer } from './visualizers/Waveform';
 import { JadeS01Visualizer } from './visualizers/JadeS01';
 import { JosephkoisVisualizer } from "./visualizers/josephkois";
 import { kayvaunSFVisualizer } from './visualizers/kayvaunSF';
-
-
-
+import { VicenteVisualizer } from './visualizers/ViP-Cente'
 /** ------------------------------------------------------------------------ **
  * The entire application state is stored in AppState.
  ** ------------------------------------------------------------------------ */
@@ -28,7 +26,7 @@ const instruments = List([PianoInstrument, HarpInstrument, FluteInstrument, Drum
  * Start with the default waveform visualizer.
  * Add your visualizers to this list.
  */
-const visualizers = List([WaveformVisualizer, JadeS01Visualizer, JosephkoisVisualizer, kayvaunSFVisualizer]);    // similar to Visualizer[]
+const visualizers = List([WaveformVisualizer, JadeS01Visualizer, JosephkoisVisualizer, kayvaunSFVisualizer, VicenteVisualizer]);    // similar to Visualizer[]
 
 
 /**
