@@ -41,7 +41,7 @@ export function FluteKey({
         // CSS
         top: '0',
         marginRight: '.2rem',
-        height: `${index + 5}em`,
+        height: `${18 - index}em`,
         backgroundColor: 'Sienna',
         borderColor: 'Brown'
       }}>
@@ -60,37 +60,6 @@ export function FluteKey({
   );
 }
 
-// eslint-disable-next-line
-// function FluteKeyWithoutJSX({
-//   note,
-//   synth,
-//   minor,
-//   index,
-// }: FluteKeyProps): JSX.Element {
-//   /**
-//    * This React component for pedagogical purposes.
-//    * See `FluteKey` for the React component with JSX (JavaScript XML).
-//    */
-//   return React.createElement(
-//     'div',
-//     {
-//       onMouseDown: () => synth?.triggerAttack(`${note}`),
-//       onMouseUp: () => synth?.triggerRelease('+0.25'),
-//       className: classNames('ba pointer absolute dim', {
-//         'bg-black black h3': minor,
-//         'black bg-white h4': !minor,
-//       }),
-//       style: {
-//         top: 0,
-//         left: `${index * 2}rem`,
-//         zIndex: minor ? 1 : 0,
-//         width: minor ? '1.5rem' : '2rem',
-//         marginLeft: minor ? '0.25rem' : 0,
-//       },
-//     },
-//     [],
-//   );
-// }
 
 function FluteType({ title, onClick, active }: any): JSX.Element {
   return (
