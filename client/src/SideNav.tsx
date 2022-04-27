@@ -161,9 +161,17 @@ function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
   */
 
   const songs: List<any> = state.get('songs', List());
+  const [search, setSearch] = React.useState('');
   return (
     <Section title="Playlist">
-      {songs.map(song => (
+      <input type="text" placeholder='Search for a song' onChange={e => {setSearch(e.target.value)}}/>
+      {songs.filter(e => {
+        if(search == ""){
+          return e
+        }else if(e.get('songTitle').toLowerCase().includes(search.toLowerCase())){
+          return e
+        } 
+        }).map(song => (
         <div
           key={song.get('id')}
           className="f6 pointer underline flex items-center no-underline i dim"
@@ -171,15 +179,18 @@ function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
             dispatch(new DispatchAction('PLAY_SONG', { id: song.get('id') }))
           }
         >
-          <Music20 className="mr1" />
-          {song.get('songTitle')}
-
-          <User16 />
-            {song.get('artist')}
-          
-
-          <Book16 />
-            {song.get('album')}
+          <div>
+            <Music20 className="mr1" />
+            {song.get('songTitle')}
+          </div>
+          <div>
+            <User16 />
+              {song.get('artist')}
+          </div>
+          <div>
+            <Book16 />
+              {song.get('album')}
+          </div>
         </div>
       ))}
     </Section>

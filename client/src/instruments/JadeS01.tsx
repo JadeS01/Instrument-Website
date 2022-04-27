@@ -3,6 +3,8 @@ import * as Tone from 'tone';
 import classNames from 'classnames';
 import { List, Range } from 'immutable';
 import React, { useState } from 'react';
+import { RecursivePartial } from "tone/Tone/core/util/Interface";
+import { OmniOscillatorOptions } from "tone/Tone/source/oscillator/OscillatorInterface";
 
 // project imports
 import { Instrument, InstrumentProps } from '../Instruments';
@@ -27,22 +29,10 @@ interface HarpStringProps {
      * This React component corresponds to either a major or minor key in the piano.
      * See `HarpStringWithoutJSX` for the React component without JSX.
      */
-    const [sample] = useState(
-      new Tone.Sampler({  
-        urls:{
-          A2: `https://github.com/nbrosowsky/tonejs-instruments/blob/master/samples/harp/A2.mp3`
-        },
-        baseUrl: "http://localhost:3000" 
 
-      }).toDestination()
-    )
-    
-    const harp_sample = (note: string) => {
-      sample.triggerAttackRelease([`${note}`], 1);
-    }
   
     const colors =['#A93226','#F9E79F','#F9E79F','#229954','#F9E79F','#F9E79F','#F9E79F'];
-    colors.push(...colors)
+    colors.push(...colors, ...colors)
     return (
       // Observations:
       // 1. The JSX refers to the HTML-looking syntax within TypeScript.
@@ -102,7 +92,7 @@ interface HarpStringProps {
       <div
         onClick={onClick}
         className={classNames('dim pointer ph2 pv1 ba mr2 br1 fw7 bw1', {
-          'b--black black': active,
+          'b--black blue': active,
           'gray b--light-gray': !active,
         })}
       >
@@ -128,8 +118,8 @@ interface HarpStringProps {
       setSynth(oldSynth => {
         oldSynth.disconnect();
     
-        return new Tone.MembraneSynth ({
-          oscillator: { type: newType } as Tone.OmniOscillatorOptions,
+        return new Tone.Synth ({
+          // oscillator: { type: newType } as Tone.OmniOscillatorOptions,
           // "envelope": {
           //       attack: .005,
           //       attackCurve: 'linear',
@@ -139,20 +129,36 @@ interface HarpStringProps {
           //       release: 1,
           //       releaseCurve: 'exponential'
           // },
+          "volume": 5,
+          "detune": 0,
+          "portamento": 0.005,
           "envelope": {
-            "attack": 0.001,
-            "decay": 0.35,
-            "sustain": 0.01,
-            "release": 1.4,
+            "attack": 0,
+            "attackCurve": "cosine",
+            "decay": 0.1,
+            "decayCurve": "linear",
+            "release": 0.2,
+            "releaseCurve": "cosine",
+            "sustain": 0.2
           },
-          "octaves": 9,
-          "pitchDecay": 0.0005,
+          "oscillator": {
+            "partialCount": 5,
+            "partials": [
+              1,
+              0.8434636622299384,
+              0.000244140625,
+              0.31640625,
+              0.0625
+            ],
+            "phase": 8,
+            "type": "custom"
+          } as RecursivePartial<OmniOscillatorOptions>,
+          
         }).toDestination();
       });
     };
   
     const oscillators: List<OscillatorType> = List([
-      'sine',
       'sawtooth',
       'square',
       'triangle',
@@ -167,7 +173,7 @@ interface HarpStringProps {
     return (
       <div className="pv4">
         <div className="relative dib h4 w-100 ml4">
-          {Range(2, 4).map(octave =>
+          {Range(2, 5).map(octave =>
             strings.map(strings => {
               const note = `${strings.note}${octave}`;
               return (
