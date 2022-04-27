@@ -42,8 +42,7 @@ interface HarpStringProps {
     }
   
     const colors =['#A93226','#F9E79F','#F9E79F','#229954','#F9E79F','#F9E79F','#F9E79F'];
-    const colors2 =['#A93226','#F9E79F','#F9E79F','#229954','#F9E79F','#F9E79F','#F9E79F'];
-    colors.push(...colors2); 
+    colors.push(...colors)
     return (
       // Observations:
       // 1. The JSX refers to the HTML-looking syntax within TypeScript.
@@ -57,7 +56,7 @@ interface HarpStringProps {
           'black bg-green h4': note == 'F', // major keys are white
           'black bg-white h4': note !== 'C' && note != 'F', // major keys are white
         })}
-        style={{
+        style={{ 
           // CSS
           backgroundColor: colors[index],
           top: 0,
@@ -65,6 +64,7 @@ interface HarpStringProps {
           zIndex: 1,
           width: '1.5rem',
           marginLeft: '0.25rem',
+          filter: 'drop-shadow(6px 4px 4px rgba(0, 0, 0, 0.25))'
 
         }}
       ></div>
