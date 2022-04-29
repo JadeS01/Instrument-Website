@@ -132,7 +132,7 @@ useEffect(setOscillator, [setSynth]);
         {Range(0, 3).map(octave =>
           keys.map(key => {
             const isMinor = key.note.indexOf('b') !== -1;
-            const note = `${key.note}${octave + 2}`;
+            const note = `${key.note}${octave + 1}`;
             const index = (octave) * 7 + key.idx
             if (index < 15) {
               return (
@@ -141,7 +141,7 @@ useEffect(setOscillator, [setSynth]);
                   note={note}
                   synth={synth}
                   minor={isMinor}
-                  octave={octave + 2}
+                  octave={octave}
                   index={index}
                 />
               );

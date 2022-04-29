@@ -20,11 +20,8 @@ export const VicenteVisualizer = new Visualizer(
     p5.background(0, 0, 0, 255);
     p5.strokeWeight(dim * 0.01);
     
-    let colors = ['blue','green','yellow', 'red' ]
-
     let values = analyzer.getValue();
     let max = -Infinity
-    // const rectWidth = width / 22
     
     p5.beginShape();
     for(let i = 0; i < values.length - 1 ; i++){
@@ -34,7 +31,6 @@ export const VicenteVisualizer = new Visualizer(
       const x = p5.map(amplitude, 0, max, 0, width) ;
       const y = height - 10
       const rectWidth = p5.map(amplitude, 0, max, 0, width ) 
-      //console.log(rectWidth)
       let rectHeight =  p5.map(amplitude, 0, max, 0, height )
       
       if(amplitude < 0.025 && amplitude > -0.025){
@@ -48,9 +44,6 @@ export const VicenteVisualizer = new Visualizer(
       }
       
       p5.rect(x , y, -Math.abs(rectWidth) , -Math.abs(rectHeight))
-      // if(amplitude != 0){
-      //   console.log(amplitude)
-      // }
         
     }
 
