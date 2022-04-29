@@ -1,4 +1,5 @@
 // 3rd party library imports
+import { RecentlyViewed32 } from '@carbon/icons-react';
 import P5 from 'p5';
 import * as Tone from 'tone';
 
@@ -12,40 +13,48 @@ export const VicenteVisualizer = new Visualizer(
     const width = window.innerWidth;
     const height = window.innerHeight / 2;
     const dim = Math.min(width, height);
-    //change angle mode so that circle can be displayed
-    p5.angleMode(p5.DEGREES);
-    //p5.noFill();
-    p5.fill("purple");
-
+    p5.stroke(255, 255, 255, 255);
+    p5.noFill();
+    //p5.stroke((Math.random() * 200) + 50,(Math.random() * 200) + 50, (Math.random() * 200) + 50)
+    p5.fill("grey");
     p5.background(0, 0, 0, 255);
-
     p5.strokeWeight(dim * 0.01);
-    p5.stroke("purple");
+    
+    let colors = ['blue','green','yellow', 'red' ]
 
-    //center everything
-    //p5.translate(p5.width / 2, 0);
-    const values = analyzer.getValue();
-    //right half of circle
+    let values = analyzer.getValue();
+    let max = -Infinity
+    // const rectWidth = width / 22
+    
     p5.beginShape();
-
-    let amount = values.length;
-    let side = Math.sqrt(amount);
-    let idx = 0;
-    let size = 8;
-    let xInc = 30;
-    let yInc = 30;
-    let xOffset = 100;
-    let yOffset = 50;
-    for (let i = 0; i < side; i++) {
-      xOffset = 100;
-      for (let y = 0; y < side; y++) {
-        let circleSize = Number(values[idx]) * 10 * size;
-        p5.circle(xOffset, yOffset, circleSize);
-        xOffset += xInc;
-        idx++;
+    for(let i = 0; i < values.length - 1 ; i++){
+      const amplitude = values[i] as number;
+      max = Math.max(amplitude, max)
+      
+      const x = p5.map(amplitude, 0, max, 0, width) ;
+      const y = height - 10
+      const rectWidth = p5.map(amplitude, 0, max, 0, width ) 
+      //console.log(rectWidth)
+      let rectHeight =  p5.map(amplitude, 0, max, 0, height )
+      
+      if(amplitude < 0.025 && amplitude > -0.025){
+        p5.stroke('blue')
+      }else if(amplitude < 0.05 && amplitude > -0.05){
+        p5.stroke("green");
+      }else if(amplitude < 0.1 && amplitude > -0.1){
+        p5.stroke('yellow')
+      }else{
+        p5.stroke('red')
       }
-      yOffset += yInc;
+      
+      p5.rect(x , y, -Math.abs(rectWidth) , -Math.abs(rectHeight))
+      // if(amplitude != 0){
+      //   console.log(amplitude)
+      // }
+        
     }
+
+    
 
     p5.endShape();
   }

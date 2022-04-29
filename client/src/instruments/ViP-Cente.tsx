@@ -2,10 +2,12 @@
 import * as Tone from 'tone';
 import classNames from 'classnames';
 import { List, Range } from 'immutable';
-import React from 'react';
+import React, { useEffect } from 'react';
 
 // project imports
 import { Instrument, InstrumentProps } from '../Instruments';
+import { RecursivePartial } from "tone/Tone/core/util/Interface";
+import { OmniOscillatorOptions } from "tone/Tone/source/oscillator/OscillatorInterface";
 
 /** ------------------------------------------------------------------------ **
  * Contains implementation of components for Flute.
@@ -14,7 +16,8 @@ import { Instrument, InstrumentProps } from '../Instruments';
 interface FluteKeyProps {
   note: string; // 
   duration?: string;
-  synth?: Tone.Synth; // Contains library code for making sound
+  synth?: Tone.Synth;
+  minor?: boolean // Contains library code for making sound
   octave: number;
   index: number; // octave + index together give a location for the Flute key
 }
@@ -22,6 +25,7 @@ interface FluteKeyProps {
 export function FluteKey({
   note,
   synth,
+  minor,
   index,
 }: FluteKeyProps): JSX.Element {
   /**
@@ -86,37 +90,48 @@ function Flute({ synth, setSynth }: InstrumentProps): JSX.Element {
     { note: 'B', idx: 6 },
   ]);
 
-  const setOscillator = (newType: Tone.ToneOscillatorType) => {
+  const setOscillator = () => {
     setSynth(oldSynth => {
-      oldSynth.disconnect();
+        oldSynth.disconnect();
+        return new Tone.Synth({
+            "volume": 7,
+            "detune": 0,
+            "portamento": 0,
+            "envelope": {
+                "attack": 1,
+                "attackCurve": "cosine",
+                "decay": 2,
+                "decayCurve": "linear",
+                "release": 1,
+                "releaseCurve": "exponential",
+                "sustain": 0
+            },
+            "oscillator": {
+                "partialCount": 3,
+                "partials": [
+                    0.000048225308641975394,
+                    0.007236810378086416,
+                    1
+                ],
+                "phase": 3,
+                "type": "fatcustom",
+                "count": 5,
+                "spread": 1
+            } as RecursivePartial<OmniOscillatorOptions>,
+        }).toDestination();
+    }
+    )
+        ;
+};
 
-      return new Tone.Synth({
-        oscillator: { type: newType } as Tone.OmniOscillatorOptions,
-        envelope: {
-          attack: 0.3
-        }
-      }).toDestination();
-    });
-  };
-
-  const oscillators: List<OscillatorType> = List([
-    'sine',
-    'sawtooth',
-    'square',
-    'triangle',
-    'fmsine',
-    'fmsawtooth',
-    'fmtriangle',
-    'amsine',
-    'amsawtooth',
-    'amtriangle',
-  ]) as List<OscillatorType>;
+useEffect(setOscillator, [setSynth]);
 
   return (
     <div className="pv4">
       <div className="dib w-100 ml4 flex">
         {Range(0, 3).map(octave =>
           keys.map(key => {
+            const isMinor = key.note.indexOf('b') !== -1;
             const note = `${key.note}${octave + 2}`;
             const index = (octave) * 7 + key.idx
             if (index < 15) {
@@ -125,6 +140,7 @@ function Flute({ synth, setSynth }: InstrumentProps): JSX.Element {
                   key={note} //react key
                   note={note}
                   synth={synth}
+                  minor={isMinor}
                   octave={octave + 2}
                   index={index}
                 />
@@ -134,16 +150,6 @@ function Flute({ synth, setSynth }: InstrumentProps): JSX.Element {
             }
           }),
         )}
-      </div>
-      <div className={'pl4 pt4 flex'}>
-        {oscillators.map(o => (
-          <FluteType
-            key={o}
-            title={o}
-            onClick={() => setOscillator(o)}
-            active={synth?.oscillator.type === o}
-          />
-        ))}
       </div>
     </div>
   );
