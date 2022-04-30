@@ -35,7 +35,7 @@ export function ViolinString({
         onMouseDown={() => synth?.triggerAttack(`${note}`)} // Question: what is `onMouseDown`?
         onMouseUp={() => synth?.triggerRelease('+0.25')} // Question: what is `onMouseUp`?
         className={classNames('ba pointer absolute dim', {
-          'bg-black black h3': minor, // minor keys are black
+          //'bg-black black h3': minor, // minor keys are black
           'black bg-white h4': !minor, // major keys are white
         })}
         style={{
@@ -67,7 +67,7 @@ function ViolinStringWithoutJSX({
         onMouseDown: () => synth?.triggerAttack(`${note}`),
         onMouseUp: () => synth?.triggerRelease('+0.25'),
         className: classNames('ba pointer absolute dim', {
-            'bg-black black h3': minor,
+            //'bg-black black h3': minor,
             'black bg-white h4': !minor,
         }),
         style: {
@@ -87,7 +87,7 @@ function ViolinType({ title, onClick, active }: any): JSX.Element {
     <div
         onClick={onClick}
         className={classNames('dim pointer ph2 pv1 ba mr2 br1 fw7 bw1', {
-            'b--black black': active,
+            //'b--black black': active,
             'gray b--light-gray': !active,
         })}
     >
@@ -96,19 +96,16 @@ function ViolinType({ title, onClick, active }: any): JSX.Element {
     );
 }
 
+//bottom div is the oscillators styling
+//second to bottom div is the instrument styling, it maps the keys
 function Violin({ synth, setSynth }: InstrumentProps): JSX.Element {
     const keys = List([
         { note: 'C', idx: 0 },
-        { note: 'Db', idx: 0.5 },
         { note: 'D', idx: 1 },
-        { note: 'Eb', idx: 1.5 },
         { note: 'E', idx: 2 },
         { note: 'F', idx: 3 },
-        { note: 'Gb', idx: 3.5 },
         { note: 'G', idx: 4 },
-        { note: 'Ab', idx: 4.5 },
         { note: 'A', idx: 5 },
-        { note: 'Bb', idx: 5.5 },
         { note: 'B', idx: 6 },
     ]);
 
@@ -155,7 +152,7 @@ function Violin({ synth, setSynth }: InstrumentProps): JSX.Element {
             }),
         )}
         </div>
-        <div className={'pl4 pt4 flex'}>
+        <div className={'pl4 pt4 flex'}> 
             {oscillators.map(o => (
             <ViolinType
                 string={o}
