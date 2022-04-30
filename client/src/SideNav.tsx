@@ -162,9 +162,14 @@ function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
 
   const songs: List<any> = state.get('songs', List());
   const [search, setSearch] = React.useState('');
+
+
+
   return (
     <Section title="Playlist">
+      
       <input type="text" placeholder='Search for a song' onChange={e => {setSearch(e.target.value)}}/>
+    
       {songs.filter(e => {
         if(search == ""){
           return e

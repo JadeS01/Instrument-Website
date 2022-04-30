@@ -17,3 +17,6 @@ VALUES (3, 'Objection! 2001', 'Masakazu Sugimori', 'Ace Attorney OST', 'D4 G4 D5
 
 INSERT INTO songs (id, song_title, artist, album, notes) 
 VALUES (4, 'Fallen Down', 'Toby Fox', 'Undertale OST', 'A4 D4 E4 D4 G#3 D4 E4 D4 G3 D4 E4 G4 F#4 E4 D4 A3');
+
+INSERT INTO songs (id, song_title, artist, album, notes) 
+VALUES (5, 'Für Elise', 'Ludwig van Beethoven', 'BiA 515', 'E5 D#5 E5 D#5 E5 B4 D5 C5 A4');
