@@ -6,8 +6,6 @@ import React from 'react';
 
 // project imports
 import { Instrument, InstrumentProps } from '../Instruments';
-import { RecursivePartial } from 'tone/Tone/core/util/Interface';
-import { OmniOscillatorOptions } from 'tone';
 
 interface ViolinStringProps {
     note: string; // C, Db, D, Eb, E, F, Gb, G, Ab, A, Bb, B
