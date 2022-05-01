@@ -29,8 +29,7 @@ interface HarpStringProps {
      * This React component corresponds to either a major or minor key in the piano.
      * See `HarpStringWithoutJSX` for the React component without JSX.
      */
-
-  
+    
     const colors =['#A93226','#F9E79F','#F9E79F','#229954','#F9E79F','#F9E79F','#F9E79F'];
     colors.push(...colors, ...colors)
     return (
@@ -114,9 +113,11 @@ interface HarpStringProps {
       { note: 'B', idx: 6 },
     ]);
   
-    const setOscillator = (newType: Tone.ToneOscillatorType) => {
+    const setOscillator = () => {
       setSynth(oldSynth => {
         oldSynth.disconnect();
+        
+      
     
         return new Tone.Synth ({
           // oscillator: { type: newType } as Tone.OmniOscillatorOptions,
@@ -137,7 +138,7 @@ interface HarpStringProps {
             "attackCurve": "cosine",
             "decay": 0.1,
             "decayCurve": "linear",
-            "release": 0.2,
+            "release": 1,
             "releaseCurve": "cosine",
             "sustain": 0.2
           },
@@ -158,17 +159,18 @@ interface HarpStringProps {
       });
     };
   
-    const oscillators: List<OscillatorType> = List([
-      'sawtooth',
-      'square',
-      'triangle',
-      'fmsine',
-      'fmsawtooth',
-      'fmtriangle',
-      'amsine',
-      'amsawtooth',
-      'amtriangle',
-    ]) as List<OscillatorType>;
+    // const oscillators: List<OscillatorType> = List([
+    //   'sawtooth',
+    //   'square',
+    //   'triangle',
+    //   'fmsine',
+    //   'fmsawtooth',
+    //   'fmtriangle',
+    //   'amsine',
+    //   'amsawtooth',
+    //   'amtriangle',
+    // ]) as List<OscillatorType>;
+    React.useEffect(setOscillator, [setSynth]);
   
     return (
       <div className="pv4">
@@ -188,7 +190,7 @@ interface HarpStringProps {
             }),
           )}
         </div>
-        <div className={'pl4 pt4 flex'}>
+        {/* <div className={'pl4 pt4 flex'}>
           {oscillators.map(o => (
             <HarpType
               key={o}
@@ -197,7 +199,7 @@ interface HarpStringProps {
               active={synth?.oscillator.type === o}
             />
           ))}
-        </div>
+        </div> */}
       </div>
     );
   }
