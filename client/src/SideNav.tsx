@@ -75,7 +75,7 @@ export function SideNav({ state, dispatch }: SideNavProps): JSX.Element {
  * SideNav Sub-Components
  ** ------------------------------------------------------------------------ */
 
- function InstrumentsNav({ state }: SideNavProps): JSX.Element {
+function InstrumentsNav({ state }: SideNavProps): JSX.Element {
   /** 
    *  InstrumentsNav
    *  |-----------------|
@@ -88,7 +88,7 @@ export function SideNav({ state, dispatch }: SideNavProps): JSX.Element {
    *  |      ...        |
    *  |-----------------|
   */
-  
+
   const instruments: List<Instrument> = state.get('instruments');
   const activeInstrument = state.get('instrument')?.name;
   const location = useLocation();
@@ -167,34 +167,43 @@ function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
 
   return (
     <Section title="Playlist">
-      
-      <input type="text" placeholder='Search for a song' onChange={e => {setSearch(e.target.value)}}/>
-    
+
+      <input type="text" placeholder='Search for a song' onChange={e => { setSearch(e.target.value) }} />
+
       {songs.filter(e => {
-        if(search == ""){
+        if (search == "") {
           return e
-        }else if(e.get('songTitle').toLowerCase().includes(search.toLowerCase())){
+        } else if (e.get('songTitle').toLowerCase().includes(search.toLowerCase())) {
           return e
-        } 
-        }).map(song => (
+        }
+      }).map(song => (
         <div
           key={song.get('id')}
-          className="f6 pointer underline flex items-center no-underline i dim"
+          className="f6 pointer flex justify-around items-center no-underline i dim pa3 outline"
           onClick={() =>
             dispatch(new DispatchAction('PLAY_SONG', { id: song.get('id') }))
           }
         >
-          <div>
-            <Music20 className="mr1" />
-            {song.get('songTitle')}
-          </div>
-          <div>
-            <User16 />
+          <div className='flex-column justify-around outline'>
+
+            <div className='ba pa2'>
+              <Music20 className="mr1" />
+              {song.get('songTitle')}
+            </div>
+
+            <div className='ba pa2'>
+              <User16 />
               {song.get('artist')}
-          </div>
-          <div>
-            <Book16 />
-              {song.get('album')}
+            </div>
+
+            <div className='ba pa2'>
+              <Book16 />
+              <div>
+                {song.get('album')}
+              </div>
+
+            </div>
+
           </div>
         </div>
       ))}
@@ -211,7 +220,7 @@ function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
  * Radio Button
  ** ------------------------------------- */
 
- type RadioButtonProps = {
+type RadioButtonProps = {
   to: any,
   text: string,
   active: boolean,

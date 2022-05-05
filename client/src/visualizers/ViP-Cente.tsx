@@ -2,13 +2,14 @@
 import { RecentlyViewed32 } from '@carbon/icons-react';
 import P5 from 'p5';
 import * as Tone from 'tone';
+import { Frequency } from 'tone/Tone/core/type/Units';
 
 // project imports
 import { Visualizer } from '../Visualizers';
 
 
 export const VicenteVisualizer = new Visualizer(
-  "ViP-Cente",
+  "ViP-Cente Visualizer",
   (p5: P5, analyzer: Tone.Analyser) => {
     const width = window.innerWidth;
     const height = window.innerHeight / 2;
@@ -21,11 +22,13 @@ export const VicenteVisualizer = new Visualizer(
     p5.strokeWeight(dim * 0.01);
     
     let values = analyzer.getValue();
+    console.log(values)
     let max = -Infinity
     
     p5.beginShape();
     for(let i = 0; i < values.length - 1 ; i++){
       const amplitude = values[i] as number;
+    
       max = Math.max(amplitude, max)
       
       const x = p5.map(amplitude, 0, max, 0, width) ;
