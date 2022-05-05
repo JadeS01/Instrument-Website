@@ -198,10 +198,7 @@ function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
 
             <div className='ba pa2'>
               <Book16 />
-              <div>
                 {song.get('album')}
-              </div>
-
             </div>
 
           </div>
