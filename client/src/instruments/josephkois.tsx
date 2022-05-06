@@ -3,6 +3,7 @@ import * as Tone from 'tone';
 import classNames from 'classnames';
 import { List, Range } from 'immutable';
 import React from 'react';
+import violinImage from '../img/violin.jpg'
 
 // project imports
 import { Instrument, InstrumentProps } from '../Instruments';
@@ -31,22 +32,26 @@ export function ViolinString({
       // 1. The JSX refers to the HTML-looking syntax within TypeScript.
       // 2. The JSX will be **transpiled** into the corresponding `React.createElement` library call.
       // 3. The curly braces `{` and `}` should remind you of string interpolation.
+    
     <div
         onMouseDown={() => synth?.triggerAttack(`${note}`)} // Question: what is `onMouseDown`?
         onMouseUp={() => synth?.triggerRelease('+0.25')} // Question: what is `onMouseUp`?
         className={classNames('ba pointer absolute dim', {
-          //'bg-black black h3': minor, // minor keys are black
           'black bg-white h4': !minor, // major keys are white
         })}
+        //this styling is for each individual key
         style={{
             // CSS
             top: 0,
-            left: `${index * 2}rem`,
-            zIndex: minor ? 1 : 0,
-            width: minor ? '1.5rem' : '2rem',
-            marginLeft: minor ? '0.25rem' : 0,
+            left: `${index * 1.95}rem`, //the spacing left between each key
+            zIndex: 10000,
+            height: `4.7rem`,
+            width: '2rem',
+            marginLeft: 0,
+            opacity: 0.1
         }}
     ></div>
+    
     );
 }
 
@@ -73,9 +78,9 @@ function ViolinStringWithoutJSX({
         style: {
             top: 0,
             left: `${index * 2}rem`,
-            zIndex: minor ? 1 : 0,
-            width: minor ? '1.5rem' : '2rem',
-            marginLeft: minor ? '0.25rem' : 0,
+            zIndex: 1000,
+            width: '5rem',
+            marginLeft: 0,
         },
     },
     [],
@@ -115,27 +120,25 @@ function Violin({ synth, setSynth }: InstrumentProps): JSX.Element {
 
         return new Tone.Synth({
             oscillator: { type: newType } as Tone.OmniOscillatorOptions,
+            "envelope": { 
+                "attack": 0.005,
+                "decay": 0.1,
+                "sustain": 0.2,
+                "release": 4,
+            },
         }).toDestination();
     });
     };
 
     const oscillators: List<OscillatorType> = List([
-        'sine',
         'sawtooth',
-        'square',
-        'triangle',
-        'fmsine',
-        'fmsawtooth',
-        'fmtriangle',
-        'amsine',
-        'amsawtooth',
-        'amtriangle',
     ]) as List<OscillatorType>;
 
     return (
     <div className="pv4">
+        <img src={violinImage} alt="logo" style={{zIndex:0}}/>
         <div className="relative dib h4 w-100 ml4">
-            {Range(2, 7).map(octave =>
+            {Range(2, 5).map(octave =>
             keys.map(key => {
             const isMinor = key.note.indexOf('b') !== -1;
             const note = `${key.note}${octave}`;
@@ -152,13 +155,17 @@ function Violin({ synth, setSynth }: InstrumentProps): JSX.Element {
             }),
         )}
         </div>
+        
         <div className={'pl4 pt4 flex'}> 
             {oscillators.map(o => (
             <ViolinType
                 string={o}
                 title={o}
-                onClick={() => setOscillator(o)}
+                onClick={() => setOscillator("sawtooth")}
                 active={synth?.oscillator.type === o}
+                style={{
+                    left: '10rem',
+                }}
             />
         ))}
         </div>
