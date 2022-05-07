@@ -1,8 +1,6 @@
 // 3rd party library imports
-import { StormTracker16 } from '@carbon/icons-react';
 import P5 from 'p5';
 import * as Tone from 'tone';
-import { couldStartTrivia } from 'typescript';
 
 // project imports
 import { Visualizer } from '../Visualizers';
@@ -24,7 +22,7 @@ export const JosephkoisVisualizer = new Visualizer(
     p5.beginShape();
     for (let i = 0; i < values.length; i++) {
         const amplitude = values[i] as number * 1.5;
-        const y = p5.map(amplitude, 0, 1, height, 0);
+        const y = p5.map(amplitude, 0, 1.8, height, 0);
         p5.fill(i, 255, 255); // last 2 values are opacity
         p5.rect(i * barWidth, y, barWidth - 4, height - y);
         //p5.lerp(i, 0, 0.08);

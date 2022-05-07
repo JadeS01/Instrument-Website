@@ -132,8 +132,8 @@ function Violin({ synth, setSynth }: InstrumentProps): JSX.Element {
             "envelope": { 
                 "attack": 0.2,
                 "decay": 0.5,
-                "sustain": 0.5,
-                "release": 0.1,
+                "sustain": 0.8,
+                "release": 0.5,
             },
         }).toDestination().connect(vibrato);
     });
