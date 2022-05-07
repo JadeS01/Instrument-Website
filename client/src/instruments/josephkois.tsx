@@ -4,7 +4,7 @@ import classNames from 'classnames';
 import { List, Range } from 'immutable';
 import React from 'react';
 import violinImage from '../img/violin.jpg'
-
+import '../violin.css';
 // project imports
 import { Instrument, InstrumentProps } from '../Instruments';
 
@@ -45,10 +45,10 @@ export function ViolinString({
             top: 0,
             left: `${index * 1.95}rem`, //the spacing left between each key
             zIndex: 10000,
-            height: `4.7rem`,
+            height: `6rem`,
             width: '2rem',
             marginLeft: 0,
-            opacity: 0.1
+            opacity: 0.001
         }}
     ></div>
     
@@ -114,6 +114,15 @@ function Violin({ synth, setSynth }: InstrumentProps): JSX.Element {
         { note: 'B', idx: 6 },
     ]);
 
+    //constructor for vibrato
+    const vibrato = new Tone.Vibrato({
+        maxDelay: 0.005,
+        frequency: 5,
+        depth: 0.1
+    }).toDestination();
+
+    
+
     const setOscillator = (newType: Tone.ToneOscillatorType) => {
     setSynth(oldSynth => {
         oldSynth.disconnect();
@@ -121,15 +130,16 @@ function Violin({ synth, setSynth }: InstrumentProps): JSX.Element {
         return new Tone.Synth({
             oscillator: { type: newType } as Tone.OmniOscillatorOptions,
             "envelope": { 
-                "attack": 0.005,
-                "decay": 0.1,
-                "sustain": 0.2,
-                "release": 4,
+                "attack": 0.2,
+                "decay": 0.5,
+                "sustain": 0.5,
+                "release": 0.1,
             },
-        }).toDestination();
+        }).toDestination().connect(vibrato);
     });
     };
 
+    //list of oscillators that will show up on the page
     const oscillators: List<OscillatorType> = List([
         'sawtooth',
     ]) as List<OscillatorType>;
@@ -137,7 +147,7 @@ function Violin({ synth, setSynth }: InstrumentProps): JSX.Element {
     return (
     <div className="pv4">
         <img src={violinImage} alt="logo" style={{zIndex:0}}/>
-        <div className="relative dib h4 w-100 ml4">
+        <div className="keys">
             {Range(2, 5).map(octave =>
             keys.map(key => {
             const isMinor = key.note.indexOf('b') !== -1;
