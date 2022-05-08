@@ -125,7 +125,8 @@ function VisualizersNav({ state }: SideNavProps): JSX.Element {
   const visualizers: List<Visualizer> = state.get('visualizers');
   const activeVisualizer = state.get('visualizer')?.name;
   const location = useLocation();
-
+  let randomVis = visualizers.get(Math.floor(Math.random() * visualizers.size))
+  
   return (
     <Section title="Visualizers">
       {visualizers.map(v => (
@@ -140,6 +141,7 @@ function VisualizersNav({ state }: SideNavProps): JSX.Element {
           onClick={() => console.log(v.name)}
         />
       ))}
+      <Link to={`?visualizer=${randomVis?.name}`} style={{color: "black", textDecoration: "none", backgroundColor: "gray", cursor: "pointer", border: "black"}}>Random</Link>
     </Section>
   );
 }
