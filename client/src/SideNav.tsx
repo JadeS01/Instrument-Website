@@ -7,6 +7,9 @@ import {
   RadioButton20,
   RadioButtonChecked20,
   Music20,
+  User16,
+  Book16
+
 } from '@carbon/icons-react';
 
 // project imports
@@ -56,7 +59,7 @@ export function SideNav({ state, dispatch }: SideNavProps): JSX.Element {
   return (
     <div className="absolute top-0 left-0 bottom-0 w5 z-1 shadow-1 bg-white flex flex-column">
       <div className="h3 fw7 f5 flex items-center pl3 bb b--light-gray">
-        Nameless App
+        Team 6GP
       </div>
       <div className="flex-auto">
         <InstrumentsNav state={state} dispatch={dispatch} />
@@ -72,7 +75,7 @@ export function SideNav({ state, dispatch }: SideNavProps): JSX.Element {
  * SideNav Sub-Components
  ** ------------------------------------------------------------------------ */
 
- function InstrumentsNav({ state }: SideNavProps): JSX.Element {
+function InstrumentsNav({ state }: SideNavProps): JSX.Element {
   /** 
    *  InstrumentsNav
    *  |-----------------|
@@ -85,7 +88,7 @@ export function SideNav({ state, dispatch }: SideNavProps): JSX.Element {
    *  |      ...        |
    *  |-----------------|
   */
-  
+
   const instruments: List<Instrument> = state.get('instruments');
   const activeInstrument = state.get('instrument')?.name;
   const location = useLocation();
@@ -122,7 +125,8 @@ function VisualizersNav({ state }: SideNavProps): JSX.Element {
   const visualizers: List<Visualizer> = state.get('visualizers');
   const activeVisualizer = state.get('visualizer')?.name;
   const location = useLocation();
-
+  let randomVis = visualizers.get(Math.floor(Math.random() * visualizers.size))
+  
   return (
     <Section title="Visualizers">
       {visualizers.map(v => (
@@ -137,9 +141,11 @@ function VisualizersNav({ state }: SideNavProps): JSX.Element {
           onClick={() => console.log(v.name)}
         />
       ))}
+      <Link to={`?visualizer=${randomVis?.name}`} style={{color: "black", textDecoration: "none", backgroundColor: "gray", cursor: "pointer", border: "black"}}>Random</Link>
     </Section>
   );
 }
+
 
 function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
   /** 
@@ -157,18 +163,47 @@ function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
   */
 
   const songs: List<any> = state.get('songs', List());
+  const [search, setSearch] = React.useState('');
+
+
+
   return (
     <Section title="Playlist">
-      {songs.map(song => (
+
+      <input type="text" placeholder='Search for a song' onChange={e => { setSearch(e.target.value) }} />
+
+      {songs.filter(e => {
+        if (search == "") {
+          return e
+        } else if (e.get('songTitle').toLowerCase().includes(search.toLowerCase())) {
+          return e
+        }
+      }).map(song => (
         <div
           key={song.get('id')}
-          className="f6 pointer underline flex items-center no-underline i dim"
+          className="f6 pointer flex justify-around items-center no-underline i dim pa3 outline"
           onClick={() =>
             dispatch(new DispatchAction('PLAY_SONG', { id: song.get('id') }))
           }
         >
-          <Music20 className="mr1" />
-          {song.get('songTitle')}
+          <div className='flex-column justify-around outline'>
+
+            <div className='ba pa2'>
+              <Music20 className="mr1" />
+              {song.get('songTitle')}
+            </div>
+
+            <div className='ba pa2'>
+              <User16 />
+              {song.get('artist')}
+            </div>
+
+            <div className='ba pa2'>
+              <Book16 />
+                {song.get('album')}
+            </div>
+
+          </div>
         </div>
       ))}
     </Section>
@@ -184,7 +219,7 @@ function SongsNav({ state, dispatch }: SideNavProps): JSX.Element {
  * Radio Button
  ** ------------------------------------- */
 
- type RadioButtonProps = {
+type RadioButtonProps = {
   to: any,
   text: string,
   active: boolean,
