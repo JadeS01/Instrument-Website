@@ -45,10 +45,10 @@ export function ViolinString({
             top: 0,
             left: `${index * 1.95}rem`, //the spacing left between each key
             zIndex: 10000,
-            height: `6rem`,
+            height: `4rem`,
             width: '2rem',
             marginLeft: 0,
-            opacity: 0.001
+            opacity: 0.1
         }}
     ></div>
     
@@ -148,7 +148,7 @@ function Violin({ synth, setSynth }: InstrumentProps): JSX.Element {
     <div className="pv4">
         <img src={violinImage} alt="logo" style={{zIndex:0}}/>
         <div className="keys">
-            {Range(2, 5).map(octave =>
+            {Range(2, 4).map(octave =>
             keys.map(key => {
             const isMinor = key.note.indexOf('b') !== -1;
             const note = `${key.note}${octave}`;
