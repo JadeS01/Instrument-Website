@@ -48,7 +48,7 @@ export function ViolinString({
             height: `4rem`,
             width: '2rem',
             marginLeft: 0,
-            opacity: 0.1
+            opacity: 0.001
         }}
     ></div>
     
